@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+    <title>Pergunta API ChatGPT</title>
+
+  </head>
+
+  <body>
+
+    <h1>Pergunta API ChatGPT</h1>
+
+    <form>
+
+      <label for="pergunta">Digite sua pergunta:</label>
+
+      <input type="text" id="pergunta" name="pergunta">
+
+      <button type="submit">Enviar pergunta</button>
+
+    </form>
+
+    <h2>Resposta:</h2>
+
+    <p id="resposta"></p>
+
+  </body>
+
+  <script>
+
+    const form = document.querySelector("form");
+
+    const resposta = document.querySelector("#resposta");
+
+    const API_KEY = "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";
+
+    form.addEventListener("submit", (event) => {
+
+      event.preventDefault();
+
+      const pergunta = form.pergunta.value;
+
+      fetch("https://api.openai.com/v1/engines/text-davinci-003/jobs", {
+
+        method: "POST",
+
+        headers: {
+
+          "Content-Type": "application/json",
+
+          "Authorization": `Bearer ${API_KEY}`,
+
+        },
+
+        body: JSON.stringify({
+
+          prompt: pergunta,
+
+          max_tokens: 100,
+
+        }),
+
+      })
+
+        .then((response) => response.json())
+
+        .then((data) => {
+
+          resposta.textContent = data.choices[0].text;
+
+        });
+
+    });
+
+  </script>
+
+</html>
+
