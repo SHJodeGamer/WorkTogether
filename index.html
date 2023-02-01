@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <title>ChatGPT API Question Answering</title>
+
+</head>
+
+<body>
+
+  <h1>ChatGPT API Question Answering</h1>
+
+  <form>
+
+    <label for="question">Ask a Question:</label>
+
+    <input type="text" id="question" name="question">
+
+    <button id="submit-button">Submit</button>
+
+  </form>
+
+  <div id="answer"></div>
+
+  <script>
+
+    document.querySelector("#submit-button").addEventListener("click", async function(event) {
+
+      event.preventDefault();
+
+      const question = document.querySelector("#question").value;
+
+      const response = await fetch("https://api.openai.com/v1/engines/text-davinci-002/jobs", {
+
+        method: "POST",
+
+        headers: {
+
+          "Content-Type": "application/json",
+
+          "Authorization": "Bearer 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"
+
+        },
+
+        body: JSON.stringify({
+
+          "prompt": question,
+
+          "max_tokens": 100,
+
+          "temperature": 0.5
+
+        })
+
+      });
+
+      const json = await response.json();
+
+      const answer = json.choices[0].text;
+
+      document.querySelector("#answer").innerHTML = answer;
+
+    });
+
+  </script>
+
+</body>
+
+</html>
+
